@@ -10,4 +10,4 @@
 - Reproducible scaling, recovery, and 10K/100K queue-pressure evidence.
 - Authentic 80-job HeteroSplit adapter; the proposed 160-job grid needs additional
   scientifically valid dataset/regime combinations.
-- Local release archives and GitHub CI/release workflows; publication pending approval.
+- Published Linux/macOS release archives with checksums and passing hosted CI.

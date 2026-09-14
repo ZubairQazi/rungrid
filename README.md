@@ -1,5 +1,8 @@
 # RunGrid
 
+[v0.1.0 downloads](https://github.com/ZubairQazi/rungrid/releases/tag/v0.1.0) ·
+[CI](https://github.com/ZubairQazi/rungrid/actions/workflows/ci.yml)
+
 A distributed experiment scheduler in Go and Python. PostgreSQL stores the queue,
 resource reservations, leases, request receipts, attempts, and events. Concurrent
 workers execute trusted commands over gRPC and checkpoint to S3-compatible storage.

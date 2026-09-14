@@ -86,11 +86,14 @@ grid remains a scope difference, documented in the research NOTICE.
 
 ## Release status
 
-The local v0.1.0 release includes annotated Git history, source, reproducible build
-scripts, and Linux/macOS amd64/arm64 archives. Public GitHub publication and hosted
-CI verification are pending explicit authorization; no hosted CI pass is claimed.
-Automatic approval review blocked creation/push to `ZubairQazi/rungrid` because that
-exact public destination and source publication had not been explicitly authorized.
+The repository and annotated `v0.1.0` tag are public. The release commit
+`e1beceb7eeed29d9f71a2bf904ee9732231fbd18` passed
+[hosted CI](https://github.com/ZubairQazi/rungrid/actions/runs/34804025140), including
+the database/race tests and all seven Compose fault scenarios.
+
+[Release downloads](https://github.com/ZubairQazi/rungrid/releases/tag/v0.1.0)
+provide Linux/macOS amd64/arm64 archives and SHA-256 checksums, built by the
+[release workflow](https://github.com/ZubairQazi/rungrid/actions/runs/34804298630).
 
 [Evidence checksums](evidence/SHA256SUMS). Full methodology and limitations are in
 [benchmarks/README.md](../benchmarks/README.md).
