@@ -10,7 +10,7 @@ build:
 	$(GO) build -o bin/server ./cmd/server
 	$(GO) build -o bin/rungrid ./cmd/cli
 test:
-	$(GO) test -race -coverprofile=coverage.out ./...
+	$(GO) test -race -coverpkg=./internal/... -coverprofile=coverage.out ./...
 	$(PYTHON) -m pytest -m 'not integration' --cov=rungrid --cov=rungrid_worker
 integration:
 	RUNGRID_INTEGRATION=1 $(PYTHON) -m pytest -m integration -v

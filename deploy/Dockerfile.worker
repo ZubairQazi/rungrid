@@ -8,4 +8,5 @@ COPY examples/ examples/
 RUN useradd --uid 10001 --create-home rungrid
 USER rungrid
 ENV PYTHONUNBUFFERED=1
+ENV GRPC_DNS_RESOLVER=native
 ENTRYPOINT ["rungrid-worker"]

@@ -10,7 +10,12 @@ from rungrid import rungrid_pb2_grpc as service
 
 class RPC:
     def __init__(self, address, worker_id, session_id):
-        self.channel = grpc.insecure_channel(address)
+        self.channel = grpc.insecure_channel(address, options=[
+            ("grpc.initial_reconnect_backoff_ms", 100),
+            ("grpc.min_reconnect_backoff_ms", 100),
+            ("grpc.max_reconnect_backoff_ms", 1000),
+            ("grpc.dns_min_time_between_resolutions_ms", 1000),
+        ])
         self.stub = service.WorkerServiceStub(self.channel)
         self.worker_id, self.session_id = worker_id, session_id
 
@@ -24,7 +29,7 @@ class RPC:
         delay = 0.1
         while True:
             try:
-                response = getattr(self.stub, method)(req, timeout=max(0.01, min(5 + wait_seconds, end - time.monotonic())))
+                response = getattr(self.stub, method)(req, timeout=max(0.01, min(5 + wait_seconds, end - time.monotonic())), wait_for_ready=True)
                 result = json.loads(response.payload_json)
                 if "lease_expires_at" in result:
                     ttl = (datetime.fromisoformat(result["lease_expires_at"].replace("Z", "+00:00")) -

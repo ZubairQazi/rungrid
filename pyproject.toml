@@ -22,3 +22,7 @@ packages = ["rungrid", "rungrid_worker"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = ["integration: requires running PostgreSQL, server, workers and MinIO"]
+
+[tool.coverage.run]
+branch = true
+omit = ["*/rungrid_pb2.py", "*/rungrid_pb2_grpc.py"]

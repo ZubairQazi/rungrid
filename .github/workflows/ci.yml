@@ -1,0 +1,51 @@
+name: CI
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.27.1'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
+          make generate
+          git diff --exit-code -- gen sdk/python/rungrid/rungrid_pb2.py sdk/python/rungrid/rungrid_pb2_grpc.py
+          test -z "$(gofmt -l cmd internal migrations)"
+          go vet ./...
+      - run: make up
+      - name: Wait for readiness
+        run: |
+          for i in $(seq 1 60); do curl -fsS http://localhost:8080/readyz && exit 0; sleep 1; done
+          exit 1
+      - run: make test
+        env:
+          RUNGRID_TEST_DATABASE_URL: postgres://rungrid:rungrid@localhost:55432/rungrid?sslmode=disable
+      - run: make integration
+      - name: Collect evidence
+        if: always()
+        run: |
+          mkdir -p results/ci
+          docker compose -f deploy/docker-compose.yml logs --no-color > results/ci/cluster.log
+          go tool cover -func=coverage.out > results/ci/go-coverage.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-evidence
+          path: |
+            coverage.out
+            .coverage
+            results/ci/
+      - run: docker compose -f deploy/docker-compose.yml down
+        if: always()
