@@ -1,5 +1,6 @@
 FROM rungrid-worker:latest
 USER root
 RUN pip install --no-cache-dir torch==2.7.0 --index-url https://download.pytorch.org/whl/cpu
-RUN pip install --no-cache-dir heterosplit==0.1.0 torch-geometric==2.6.1
+RUN pip install --no-cache-dir https://github.com/ZubairQazi/heterosplit/archive/9636559fc724d8b162afcfcadfa2ea1c385ed292.tar.gz torch-geometric==2.6.1
+RUN python -c "from heterosplit.datasets.movielens import load_movielens_csv; from heterosplit.datasets.drugcomb import load_drugcomb_csv"
 USER rungrid
