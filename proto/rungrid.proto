@@ -1,0 +1,26 @@
+syntax = "proto3";
+package rungrid.v1;
+option go_package = "github.com/ZubairQazi/rungrid/gen/rungrid/v1;rungridv1";
+
+// The versioned JSON envelope carries the documented worker mutation schema.
+// Identity and fencing fields are typed; payload contains resources/logs/artifacts.
+message Request {
+ string request_id = 1;
+ string worker_id = 2;
+ string session_id = 3;
+ string attempt_id = 4;
+ string lease_token = 5;
+ bytes payload_json = 6;
+ int32 wait_seconds = 7;
+}
+message Response { bytes payload_json = 1; }
+service WorkerService {
+ rpc RegisterWorker(Request) returns (Response);
+ rpc LeaseJob(Request) returns (Response);
+ rpc StartAttempt(Request) returns (Response);
+ rpc Heartbeat(Request) returns (Response);
+ rpc ReportProgress(Request) returns (Response);
+ rpc CompleteAttempt(Request) returns (Response);
+ rpc FailAttempt(Request) returns (Response);
+ rpc ReleaseWorker(Request) returns (Response);
+}
