@@ -81,10 +81,10 @@ def run_case(client, count, workers, workload, output, timeout):
             if time.perf_counter() - execution_started > timeout:
                 raise TimeoutError(f"benchmark timed out: {len(terminal_ids)}/{count}")
             time.sleep(0.5)
+        elapsed = time.perf_counter() - execution_started
     finally:
         stop.set()
         sampler.join(timeout=10)
-    elapsed = time.perf_counter() - execution_started
     case = output / f"{workload}-{workers}workers-{count}jobs-{run_id[:8]}"
     case.mkdir(parents=True)
     (case / "attempts.csv").write_text(raw)

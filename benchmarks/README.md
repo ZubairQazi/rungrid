@@ -30,6 +30,19 @@ Recovery measurements: `python benchmarks/recovery.py --repeat 3`. It reports
 time from confirmed worker termination to replacement lease and successful completion,
 and from control-plane restart initiation to readiness and completion.
 
+For a bounded 10K/100K queue-pressure experiment:
+
+```sh
+RUNGRID_TEST_DATABASE_URL='postgres://rungrid:rungrid@localhost:55432/rungrid?sslmode=disable' python benchmarks/backlog.py
+```
+
+This creates and removes an isolated temporary database schema for each case. It
+submits incompatible GPU jobs, then measures 100 compatible CPU placements behind
+that backlog through the production store transactions. It records every placement
+sample and submission throughput. It measures database-layer placement under an
+adverse resource filter; it does not execute 100K processes or claim their throughput.
+Run it separately from other benchmarks/research to avoid contention.
+
 Coverage: `RUNGRID_TEST_DATABASE_URL=postgres://rungrid:rungrid@localhost:55432/rungrid?sslmode=disable make test`.
 Read `go tool cover -func=coverage.out`; do not report unit-only coverage as integration
 coverage. CI uploads its raw coverage and failure-test logs. Large backlog results
