@@ -15,6 +15,8 @@ This demo preserves the research semantics. Adding new schema/regime combination
 requires a separate research decision; no dummy duplicate regimes are counted.
 
 DrugComb and MovieLens data are not redistributed. Mount your legally obtained data
-directory read-only. The default uses 10,000 rows and three epochs for a scheduler
+directory read-only. The default reads up to 120,000 raw rows and uses three epochs for a scheduler
 demonstration, not an accuracy reproduction. Use the original study's data/epoch
 settings when reproducing its research numbers. Data license terms remain applicable.
+The first 10,000 DrugComb rows in the reference summary are monotherapy records that
+the adapter filters out; a small prefix is not a valid smoke-test dataset.

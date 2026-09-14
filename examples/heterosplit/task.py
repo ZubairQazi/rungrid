@@ -89,5 +89,5 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, required=True)
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--dim", type=int, default=16)
-    parser.add_argument("--max-rows", type=int, default=10000)
+    parser.add_argument("--max-rows", type=int, default=120000)
     run(parser.parse_args())

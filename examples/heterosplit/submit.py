@@ -10,7 +10,7 @@ REGIMES = {
 }
 
 
-def definitions(run_id, seeds=5, epochs=3, max_rows=10000):
+def definitions(run_id, seeds=5, epochs=3, max_rows=120000):
     for dataset, regimes in REGIMES.items():
         data = "/data/summary_v_1_5.csv" if dataset == "DrugComb" else "/data/ml/ml-latest-small/ratings.csv"
         for regime in regimes:
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--seeds", type=int, default=5)
     parser.add_argument("--epochs", type=int, default=3)
-    parser.add_argument("--max-rows", type=int, default=10000)
+    parser.add_argument("--max-rows", type=int, default=120000)
     parser.add_argument("--output", type=Path, default=Path("results/heterosplit/jobs.json"))
     args = parser.parse_args()
     jobs = Client().batch(list(definitions(args.run_id, args.seeds, args.epochs, args.max_rows)))

@@ -64,6 +64,8 @@ indefinitely; plan retention before sustained use. Historical metric percentiles
 attempt history. Replace them with incremental aggregates at larger scale. Worker log
 queues are bounded; overflow is omitted from events but retained in the log artifact.
 Temporary artifacts/logs must fit local disk. Orphaned uploads can remain after crashes.
+Available-capacity metrics report zero for draining workers or workers with no contact
+for two lease durations; their historical heartbeat-age series remain visible.
 
 The local demo pins an archived MinIO image from Quay for reproducibility, not as a
 maintained production storage recommendation. Any compatible S3 destination can be

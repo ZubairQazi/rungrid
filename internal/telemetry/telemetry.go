@@ -74,14 +74,17 @@ func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 			}
 		}
 	}
-	rows, e = c.Store.Pool.Query(ctx, `SELECT w.id,extract(epoch FROM clock_timestamp()-w.last_heartbeat_at),w.cpu-coalesce(sum(j.cpu),0),w.gpu-coalesce(sum(j.gpu),0) FROM workers w LEFT JOIN attempts a ON a.worker_id=w.id AND a.state IN ('LEASED','RUNNING') LEFT JOIN jobs j ON j.id=a.job_id GROUP BY w.id`)
+	rows, e = c.Store.Pool.Query(ctx, `SELECT w.id,w.state,extract(epoch FROM clock_timestamp()-w.last_heartbeat_at),w.cpu-coalesce(sum(j.cpu),0),w.gpu-coalesce(sum(j.gpu),0) FROM workers w LEFT JOIN attempts a ON a.worker_id=w.id AND a.state IN ('LEASED','RUNNING') LEFT JOIN jobs j ON j.id=a.job_id GROUP BY w.id`)
 	if e == nil {
 		defer rows.Close()
 		for rows.Next() {
-			var id string
+			var id, state string
 			var age, cpu, gpu float64
-			if rows.Scan(&id, &age, &cpu, &gpu) == nil {
+			if rows.Scan(&id, &state, &age, &cpu, &gpu) == nil {
 				metric(ch, "rungrid_worker_heartbeat_age_seconds", "Age of last contact", prometheus.GaugeValue, age, []string{"worker_id"}, id)
+				if state != "ACTIVE" || age > float64(2*c.Store.LeaseSeconds) {
+					cpu, gpu = 0, 0
+				}
 				metric(ch, "rungrid_available_cpu", "Unreserved CPU", prometheus.GaugeValue, cpu, []string{"worker_id"}, id)
 				metric(ch, "rungrid_available_gpu", "Unreserved GPU", prometheus.GaugeValue, gpu, []string{"worker_id"}, id)
 			}

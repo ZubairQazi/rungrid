@@ -105,13 +105,14 @@ Data is mounted read-only and is not redistributed.
 export HETEROSPLIT_DATA_DIR=/absolute/path/to/heterosplit/data
 docker compose -f deploy/docker-compose.yml build worker
 docker compose -f deploy/docker-compose.yml -f deploy/heterosplit.yml up --build -d --scale worker=2
+docker compose -f deploy/docker-compose.yml -f deploy/heterosplit.yml run --rm --no-deps --entrypoint python worker examples/heterosplit/preflight.py
 python examples/heterosplit/submit.py --run-id study-1
 python examples/heterosplit/aggregate.py results/heterosplit/jobs.json
 # Return to lightweight workers after the study completes:
 docker compose -f deploy/docker-compose.yml up -d --scale worker=2 worker
 ```
 
-Defaults use 10,000 rows and three epochs to demonstrate scheduling, not reproduce
+Defaults read up to 120,000 raw rows and use three epochs to demonstrate scheduling, not reproduce
 published accuracy. Checkpoints include model, optimizer, RNG, and split identity.
 Aggregation accepts only successful-attempt metrics with verified SHA-256 digests.
 
