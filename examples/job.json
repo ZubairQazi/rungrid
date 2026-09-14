@@ -1,0 +1,10 @@
+{
+  "name": "checkpoint-counter",
+  "command": ["python", "examples/checkpoint_counter.py"],
+  "environment": {},
+  "resources": {"cpu": 1, "memory_mb": 128, "gpu": 0},
+  "max_attempts": 3,
+  "timeout_seconds": 60,
+  "idempotency_key": "checkpoint-counter-demo-1",
+  "artifact_prefix": "demo"
+}

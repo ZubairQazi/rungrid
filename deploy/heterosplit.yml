@@ -1,0 +1,8 @@
+services:
+  worker:
+    image: rungrid-heterosplit
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.heterosplit
+    volumes:
+      - ${HETEROSPLIT_DATA_DIR:?Set HETEROSPLIT_DATA_DIR to your HeteroSplit data directory}:/data:ro

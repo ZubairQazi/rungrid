@@ -11,3 +11,5 @@ results/
 .env
 *.log
 .DS_Store
+*.egg-info/
+.ruff_cache/

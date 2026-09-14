@@ -1,0 +1,11 @@
+FROM python:3.12.10-slim-bookworm
+WORKDIR /app
+COPY pyproject.toml ./
+COPY sdk/ sdk/
+COPY worker/ worker/
+RUN pip install --no-cache-dir .
+COPY examples/ examples/
+RUN useradd --uid 10001 --create-home rungrid
+USER rungrid
+ENV PYTHONUNBUFFERED=1
+ENTRYPOINT ["rungrid-worker"]

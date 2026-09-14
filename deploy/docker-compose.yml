@@ -1,0 +1,72 @@
+name: rungrid
+services:
+  postgres:
+    image: postgres:17.5-bookworm
+    environment:
+      POSTGRES_USER: rungrid
+      POSTGRES_PASSWORD: rungrid
+      POSTGRES_DB: rungrid
+    ports: ["127.0.0.1:55432:5432"]
+    volumes: ["postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rungrid"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+  minio:
+    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
+    command: server /data --console-address :9001
+    environment:
+      MINIO_ROOT_USER: rungrid
+      MINIO_ROOT_PASSWORD: rungrid-secret
+    ports: ["127.0.0.1:9000:9000", "127.0.0.1:9001:9001"]
+    volumes: ["artifacts:/data"]
+  minio-init:
+    image: quay.io/minio/mc:RELEASE.2025-04-16T18-13-26Z
+    depends_on: [minio]
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - "until mc alias set local http://minio:9000 rungrid rungrid-secret; do sleep 1; done; mc mb --ignore-existing local/rungrid"
+  server:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.server
+    environment:
+      DATABASE_URL: postgres://rungrid:rungrid@postgres:5432/rungrid?sslmode=disable
+      RUNGRID_HTTP_ADDR: 0.0.0.0:8080
+      RUNGRID_GRPC_ADDR: 0.0.0.0:9090
+      RUNGRID_LEASE_SECONDS: ${RUNGRID_LEASE_SECONDS:-15}
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel:4318
+    ports: ["127.0.0.1:8080:8080", "127.0.0.1:9090:9090"]
+    depends_on:
+      postgres: {condition: service_healthy}
+    restart: unless-stopped
+  worker:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.worker
+    environment:
+      RUNGRID_GRPC_ADDR: server:9090
+      RUNGRID_CPU: ${RUNGRID_CPU:-2}
+      RUNGRID_MEMORY_MB: 4096
+      RUNGRID_S3_ENDPOINT: http://minio:9000
+      RUNGRID_S3_BUCKET: rungrid
+      AWS_ACCESS_KEY_ID: rungrid
+      AWS_SECRET_ACCESS_KEY: rungrid-secret
+      AWS_DEFAULT_REGION: us-east-1
+    depends_on:
+      server: {condition: service_started}
+      minio-init: {condition: service_completed_successfully}
+    stop_grace_period: 1m
+  prometheus:
+    image: prom/prometheus:v3.4.0
+    volumes: ["./prometheus.yml:/etc/prometheus/prometheus.yml:ro"]
+    ports: ["127.0.0.1:9091:9090"]
+    depends_on: [server]
+  otel:
+    image: otel/opentelemetry-collector:0.127.0
+    command: ["--config=/etc/otel/config.yml"]
+    volumes: ["./otel.yml:/etc/otel/config.yml:ro"]
+volumes:
+  postgres:
+  artifacts:

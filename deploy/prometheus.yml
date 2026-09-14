@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 5s
+scrape_configs:
+  - job_name: rungrid
+    static_configs:
+      - targets: [server:8080]
+  - job_name: workers
+    dns_sd_configs:
+      - names: [worker]
+        type: A
+        port: 9101

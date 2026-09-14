@@ -1,0 +1,5 @@
+FROM rungrid-worker:latest
+USER root
+RUN pip install --no-cache-dir torch==2.7.0 --index-url https://download.pytorch.org/whl/cpu
+RUN pip install --no-cache-dir heterosplit==0.1.1 torch-geometric==2.6.1
+USER rungrid
