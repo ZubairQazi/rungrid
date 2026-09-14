@@ -138,7 +138,7 @@ func (s *Store) lease(ctx context.Context, tx pgx.Tx, r Request, cap scheduler.R
 	l := Lease{Job: j, AttemptID: scheduler.ID(), LeaseToken: scheduler.ID()}
 	e = tx.QueryRow(ctx, `INSERT INTO attempts(id,job_id,attempt_number,worker_id,state,lease_token,lease_expires_at,deadline_at)
  VALUES($1,$2,(SELECT coalesce(max(attempt_number),0)+1 FROM attempts WHERE job_id=$2),$3,'LEASED',$4,
- clock_timestamp()+make_interval(secs=>least($5,$6)),clock_timestamp()+make_interval(secs=>$6)) RETURNING attempt_number,lease_expires_at,clock_timestamp()`, l.AttemptID, j.ID, r.WorkerID, l.LeaseToken, s.LeaseSeconds, j.Definition.TimeoutSeconds).Scan(&l.AttemptNumber, &l.LeaseExpiresAt, &l.ServerTime)
+	clock_timestamp()+make_interval(secs=>least($5::double precision,$6::double precision)),clock_timestamp()+make_interval(secs=>$6::double precision)) RETURNING attempt_number,lease_expires_at,clock_timestamp()`, l.AttemptID, j.ID, r.WorkerID, l.LeaseToken, s.LeaseSeconds, j.Definition.TimeoutSeconds).Scan(&l.AttemptNumber, &l.LeaseExpiresAt, &l.ServerTime)
 	if e != nil {
 		return nil, e
 	}

@@ -17,6 +17,12 @@ class Client:
     def submit(self, definition):
         return self.request("POST", "/v1/jobs", definition)
 
+    def submit_function(self, function, *, args=(), kwargs=None, **definition):
+        """The module must already be installed on each compatible worker."""
+        definition["command"] = ["python", "-m", "rungrid.invoke", function,
+                                 "--args", json.dumps(args), "--kwargs", json.dumps(kwargs or {})]
+        return self.submit(definition)
+
     def batch(self, definitions):
         return self.request("POST", "/v1/jobs/batch", definitions)
 

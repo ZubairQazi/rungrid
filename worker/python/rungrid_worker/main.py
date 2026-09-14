@@ -18,11 +18,10 @@ from .rpc import RPC
 
 
 def kill_group(process):
-    if process.poll() is None:
-        try:
-            os.killpg(process.pid, signal.SIGKILL)
-        except ProcessLookupError:
-            pass
+    try:
+        os.killpg(process.pid, signal.SIGKILL)
+    except ProcessLookupError:
+        pass
     process.wait()
 
 
@@ -100,7 +99,7 @@ class Worker:
 
                 def read_logs():
                     with log_path.open("wb") as stream:
-                        while chunk := process.stdout.readline(8192):
+                        while chunk := process.stdout.readline(4096):
                             stream.write(chunk)
                             try:
                                 lines.put_nowait(chunk.decode(errors="replace").rstrip())
@@ -118,17 +117,20 @@ class Worker:
                             batch.append(lines.get_nowait())
                         except queue.Empty:
                             break
-                    entries = []
+                    entries, paths = [], []
                     for path in sorted(checkpoints.glob("*.json"), key=lambda p: p.stat().st_mtime_ns):
                         if path not in uploaded:
                             entries.append(artifacts.upload(path, lease, "checkpoint", alive))
-                            uploaded.add(path)
+                            paths.append(path)
                     if batch or entries:
                         rid = str(uuid.uuid4())
-                        self.rpc.call("ReportProgress", lease, logs=batch, artifacts=entries, request_id=rid,
+                        self.rpc.call("ReportProgress", lease, logs=batch, request_id=rid,
                                       timeout=max(0.1, min(10, deadline[0] - time.monotonic())))
                         for line in batch:
                             self.log(line, lease, rid)
+                        for index in range(0, len(entries), 100):
+                            self.rpc.call("ReportProgress", lease, artifacts=entries[index:index + 100])
+                            uploaded.update(paths[index:index + 100])
 
                 while process.poll() is None:
                     if not alive():
@@ -136,6 +138,7 @@ class Worker:
                         return
                     progress()
                     time.sleep(0.1)
+                kill_group(process)
                 reader.join(timeout=3)
                 if reader.is_alive():
                     # Descendants must not outlive the command and hold log pipes open.
@@ -155,9 +158,10 @@ class Worker:
                 for index in range(0, len(entries), 100):
                     self.rpc.call("ReportProgress", lease, artifacts=entries[index:index + 100])
                 method = "CompleteAttempt" if process.returncode == 0 else "FailAttempt"
-                self.rpc.call(method, lease, exit_code=process.returncode,
+                rid = str(uuid.uuid4())
+                self.rpc.call(method, lease, exit_code=process.returncode, request_id=rid,
                               reason="" if process.returncode == 0 else "command exited nonzero")
-                self.log(method, lease, exit_code=process.returncode)
+                self.log(method, lease, request_id=rid, exit_code=process.returncode)
         except Exception as exc:
             self.log("attempt error", lease, error=str(exc))
             if alive():
