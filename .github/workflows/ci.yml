@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install -e '.[dev]'
+      - run: pip install --require-hashes -r requirements-dev.lock && pip install --no-deps -e .
       - run: |
           go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.6
           go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1

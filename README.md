@@ -64,7 +64,8 @@ Recorded toolchain: Go 1.27.1 and Python 3.12. Generated bindings are committed.
 ```sh
 python3 -m venv .venv
 . .venv/bin/activate
-pip install -e '.[dev]'
+pip install --require-hashes -r requirements-dev.lock
+pip install --no-deps -e .
 make build
 bin/rungrid submit examples/job.json
 bin/rungrid list

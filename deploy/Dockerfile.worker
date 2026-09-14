@@ -1,9 +1,9 @@
 FROM python:3.12.10-slim-bookworm
 WORKDIR /app
-COPY pyproject.toml ./
+COPY pyproject.toml requirements.lock ./
 COPY sdk/ sdk/
 COPY worker/ worker/
-RUN pip install --no-cache-dir .
+RUN pip install --no-cache-dir --require-hashes -r requirements.lock && pip install --no-cache-dir --no-deps .
 COPY examples/ examples/
 RUN useradd --uid 10001 --create-home rungrid
 USER rungrid
