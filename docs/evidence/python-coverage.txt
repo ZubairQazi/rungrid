@@ -1,0 +1,12 @@
+Name                                        Stmts   Miss Branch BrPart  Cover
+-----------------------------------------------------------------------------
+sdk/python/rungrid/__init__.py                  3      0      0      0   100%
+sdk/python/rungrid/checkpoint.py               22      0      0      0   100%
+sdk/python/rungrid/client.py                   30      9      0      0    70%
+sdk/python/rungrid/invoke.py                   16      0      2      1    94%
+worker/python/rungrid_worker/__init__.py        0      0      0      0   100%
+worker/python/rungrid_worker/artifacts.py      39      1     10      3    92%
+worker/python/rungrid_worker/main.py          199     96     66     16    46%
+worker/python/rungrid_worker/rpc.py            30     17      4      0    38%
+-----------------------------------------------------------------------------
+TOTAL                                         339    123     82     20    58%

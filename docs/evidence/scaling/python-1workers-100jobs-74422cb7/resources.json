@@ -1,0 +1,38 @@
+[
+  {
+    "time": "2026-09-14T03:23:51.768222+00:00",
+    "cpu_percent": 0.05,
+    "connections": 8,
+    "memory": "66.07MiB / 7.748GiB"
+  },
+  {
+    "time": "2026-09-14T03:23:53.896624+00:00",
+    "cpu_percent": 7.42,
+    "connections": 8,
+    "memory": "67.05MiB / 7.748GiB"
+  },
+  {
+    "time": "2026-09-14T03:23:56.049915+00:00",
+    "cpu_percent": 24.81,
+    "connections": 8,
+    "memory": "68.74MiB / 7.748GiB"
+  },
+  {
+    "time": "2026-09-14T03:23:58.183629+00:00",
+    "cpu_percent": 9.64,
+    "connections": 8,
+    "memory": "68.89MiB / 7.748GiB"
+  },
+  {
+    "time": "2026-09-14T03:24:01.249667+00:00",
+    "cpu_percent": 5.98,
+    "connections": 8,
+    "memory": "68.64MiB / 7.748GiB"
+  },
+  {
+    "time": "2026-09-14T03:24:03.371714+00:00",
+    "cpu_percent": 3.04,
+    "connections": 8,
+    "memory": "67.15MiB / 7.748GiB"
+  }
+]

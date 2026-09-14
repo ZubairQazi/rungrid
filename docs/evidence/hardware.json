@@ -1,0 +1,16 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "python": "3.12.14",
+  "docker": {
+    "NCPU": 15,
+    "MemTotal": 8318844928,
+    "Architecture": "aarch64",
+    "ServerVersion": "29.7.2",
+    "OperatingSystem": "Docker Desktop"
+  },
+  "host": {
+    "machdep.cpu.brand_string": "Apple M5 Pro",
+    "hw.ncpu": "15",
+    "hw.memsize": "25769803776"
+  }
+}

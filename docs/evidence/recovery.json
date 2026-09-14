@@ -1,0 +1,192 @@
+{
+  "revision": "e4086b37ba3dc260505666f3623b8f98d1b02747",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "samples": [
+    {
+      "fault": "worker_kill",
+      "job_id": "bfb8f03f-2876-4a48-b5b4-c3844db1b882",
+      "started_at": "2026-09-14T03:21:17.721623+00:00",
+      "replacement_lease_seconds": 15.448314166045748,
+      "completion_seconds": 20.526212500059046,
+      "attempts": [
+        {
+          "id": "969c816a-1735-4398-8bd8-a536fd2650a0",
+          "state": "EXPIRED",
+          "job_id": "bfb8f03f-2876-4a48-b5b4-c3844db1b882",
+          "exit_code": null,
+          "worker_id": "d9d86248291b-39420af8-a3ab-4621-952c-8f8224ff290f",
+          "created_at": "2026-09-14T03:21:17.683455+00:00",
+          "started_at": "2026-09-14T03:21:17.690129+00:00",
+          "deadline_at": "2026-09-14T03:22:17.683455+00:00",
+          "finished_at": "2026-09-14T03:21:33.218733+00:00",
+          "attempt_number": 1,
+          "failure_reason": "lease or attempt deadline expired",
+          "lease_expires_at": "2026-09-14T03:21:32.683446+00:00"
+        },
+        {
+          "id": "068dd9c5-9b81-4473-953d-53164c00ad14",
+          "state": "SUCCEEDED",
+          "job_id": "bfb8f03f-2876-4a48-b5b4-c3844db1b882",
+          "exit_code": 0,
+          "worker_id": "dab7dbcf58b8-8c4f7f3e-f046-422b-96cd-629d406bfd1d",
+          "created_at": "2026-09-14T03:21:33.349615+00:00",
+          "started_at": "2026-09-14T03:21:33.355546+00:00",
+          "deadline_at": "2026-09-14T03:22:33.349615+00:00",
+          "finished_at": "2026-09-14T03:21:38.431369+00:00",
+          "attempt_number": 2,
+          "failure_reason": "",
+          "lease_expires_at": "2026-09-14T03:21:53.404209+00:00"
+        }
+      ],
+      "state": "SUCCEEDED"
+    },
+    {
+      "fault": "control_plane_restart",
+      "job_id": "45865ccd-bddf-4f96-83ea-3c5dd451827a",
+      "started_at": "2026-09-14T03:21:39.815328+00:00",
+      "ready_seconds": 2.3554367079632357,
+      "completion_seconds": 5.039927582954988,
+      "attempts": [
+        {
+          "id": "18d816c4-3576-45a4-8263-9014e8c69636",
+          "state": "SUCCEEDED",
+          "job_id": "45865ccd-bddf-4f96-83ea-3c5dd451827a",
+          "exit_code": 0,
+          "worker_id": "dab7dbcf58b8-8c4f7f3e-f046-422b-96cd-629d406bfd1d",
+          "created_at": "2026-09-14T03:21:39.767679+00:00",
+          "started_at": "2026-09-14T03:21:39.771277+00:00",
+          "deadline_at": "2026-09-14T03:22:39.767679+00:00",
+          "finished_at": "2026-09-14T03:21:44.836296+00:00",
+          "attempt_number": 1,
+          "failure_reason": "",
+          "lease_expires_at": "2026-09-14T03:21:59.36866+00:00"
+        }
+      ],
+      "state": "SUCCEEDED"
+    },
+    {
+      "fault": "worker_kill",
+      "job_id": "79c5ecf6-4584-4cf4-ae35-bb2b2ae446cc",
+      "started_at": "2026-09-14T03:21:46.083135+00:00",
+      "replacement_lease_seconds": 14.969742749934085,
+      "completion_seconds": 20.21669395803474,
+      "attempts": [
+        {
+          "id": "131b4d21-8d36-40f5-bac9-e297fe215118",
+          "state": "EXPIRED",
+          "job_id": "79c5ecf6-4584-4cf4-ae35-bb2b2ae446cc",
+          "exit_code": null,
+          "worker_id": "dab7dbcf58b8-8c4f7f3e-f046-422b-96cd-629d406bfd1d",
+          "created_at": "2026-09-14T03:21:46.061215+00:00",
+          "started_at": "2026-09-14T03:21:46.067153+00:00",
+          "deadline_at": "2026-09-14T03:22:46.061215+00:00",
+          "finished_at": "2026-09-14T03:22:01.120603+00:00",
+          "attempt_number": 1,
+          "failure_reason": "lease or attempt deadline expired",
+          "lease_expires_at": "2026-09-14T03:22:01.061215+00:00"
+        },
+        {
+          "id": "6d3238cd-5f51-4006-a5e1-0532895db7f3",
+          "state": "SUCCEEDED",
+          "job_id": "79c5ecf6-4584-4cf4-ae35-bb2b2ae446cc",
+          "exit_code": 0,
+          "worker_id": "d9d86248291b-404ebd89-2b21-4580-80e0-a12c26dc5842",
+          "created_at": "2026-09-14T03:22:01.252294+00:00",
+          "started_at": "2026-09-14T03:22:01.261093+00:00",
+          "deadline_at": "2026-09-14T03:23:01.252294+00:00",
+          "finished_at": "2026-09-14T03:22:06.49165+00:00",
+          "attempt_number": 2,
+          "failure_reason": "",
+          "lease_expires_at": "2026-09-14T03:22:21.321071+00:00"
+        }
+      ],
+      "state": "SUCCEEDED"
+    },
+    {
+      "fault": "control_plane_restart",
+      "job_id": "dfc2f745-da9c-470d-b692-1865f537a8ec",
+      "started_at": "2026-09-14T03:22:08.065758+00:00",
+      "ready_seconds": 2.249174915952608,
+      "completion_seconds": 5.20623412495479,
+      "attempts": [
+        {
+          "id": "552a9a76-f1e8-4c3c-858e-65ccc18b7745",
+          "state": "SUCCEEDED",
+          "job_id": "dfc2f745-da9c-470d-b692-1865f537a8ec",
+          "exit_code": 0,
+          "worker_id": "dab7dbcf58b8-cb628912-7113-4e9e-92fd-fc72109994d5",
+          "created_at": "2026-09-14T03:22:08.030441+00:00",
+          "started_at": "2026-09-14T03:22:08.032409+00:00",
+          "deadline_at": "2026-09-14T03:23:08.030441+00:00",
+          "finished_at": "2026-09-14T03:22:13.224961+00:00",
+          "attempt_number": 1,
+          "failure_reason": "",
+          "lease_expires_at": "2026-09-14T03:22:28.073122+00:00"
+        }
+      ],
+      "state": "SUCCEEDED"
+    },
+    {
+      "fault": "worker_kill",
+      "job_id": "f63e23e0-6b97-487b-87ef-63c21036a978",
+      "started_at": "2026-09-14T03:22:14.619335+00:00",
+      "replacement_lease_seconds": 15.661194458021782,
+      "completion_seconds": 20.802838291041553,
+      "attempts": [
+        {
+          "id": "df6c809a-264b-4002-9fef-c108a80bd120",
+          "state": "EXPIRED",
+          "job_id": "f63e23e0-6b97-487b-87ef-63c21036a978",
+          "exit_code": null,
+          "worker_id": "d9d86248291b-404ebd89-2b21-4580-80e0-a12c26dc5842",
+          "created_at": "2026-09-14T03:22:14.559699+00:00",
+          "started_at": "2026-09-14T03:22:14.567295+00:00",
+          "deadline_at": "2026-09-14T03:23:14.559699+00:00",
+          "finished_at": "2026-09-14T03:22:30.262449+00:00",
+          "attempt_number": 1,
+          "failure_reason": "lease or attempt deadline expired",
+          "lease_expires_at": "2026-09-14T03:22:29.559698+00:00"
+        },
+        {
+          "id": "fdc6fcf0-330d-4614-8ede-a6be8a7520ec",
+          "state": "SUCCEEDED",
+          "job_id": "f63e23e0-6b97-487b-87ef-63c21036a978",
+          "exit_code": 0,
+          "worker_id": "dab7dbcf58b8-cb628912-7113-4e9e-92fd-fc72109994d5",
+          "created_at": "2026-09-14T03:22:30.459614+00:00",
+          "started_at": "2026-09-14T03:22:30.464668+00:00",
+          "deadline_at": "2026-09-14T03:23:30.459614+00:00",
+          "finished_at": "2026-09-14T03:22:35.577946+00:00",
+          "attempt_number": 2,
+          "failure_reason": "",
+          "lease_expires_at": "2026-09-14T03:22:50.519429+00:00"
+        }
+      ],
+      "state": "SUCCEEDED"
+    },
+    {
+      "fault": "control_plane_restart",
+      "job_id": "390a7f24-b864-47d4-bb7d-017aa7e9df7e",
+      "started_at": "2026-09-14T03:22:37.048861+00:00",
+      "ready_seconds": 2.2626162079395726,
+      "completion_seconds": 5.223823791951872,
+      "attempts": [
+        {
+          "id": "e0890caa-8b36-448f-b678-2e973b00b908",
+          "state": "SUCCEEDED",
+          "job_id": "390a7f24-b864-47d4-bb7d-017aa7e9df7e",
+          "exit_code": 0,
+          "worker_id": "d9d86248291b-aaa9a596-2c2e-44f8-a222-f2bc65a63ef5",
+          "created_at": "2026-09-14T03:22:37.038137+00:00",
+          "started_at": "2026-09-14T03:22:37.040151+00:00",
+          "deadline_at": "2026-09-14T03:23:37.038137+00:00",
+          "finished_at": "2026-09-14T03:22:42.221852+00:00",
+          "attempt_number": 1,
+          "failure_reason": "",
+          "lease_expires_at": "2026-09-14T03:22:57.10878+00:00"
+        }
+      ],
+      "state": "SUCCEEDED"
+    }
+  ]
+}

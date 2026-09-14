@@ -1,0 +1,26 @@
+[
+  {
+    "time": "2026-09-14T03:23:17.132709+00:00",
+    "cpu_percent": 0.06,
+    "connections": 3,
+    "memory": "45.65MiB / 7.748GiB"
+  },
+  {
+    "time": "2026-09-14T03:23:20.154224+00:00",
+    "cpu_percent": 11.54,
+    "connections": 3,
+    "memory": "48.11MiB / 7.748GiB"
+  },
+  {
+    "time": "2026-09-14T03:23:22.278332+00:00",
+    "cpu_percent": 11.27,
+    "connections": 3,
+    "memory": "48.61MiB / 7.748GiB"
+  },
+  {
+    "time": "2026-09-14T03:23:24.460057+00:00",
+    "cpu_percent": 10.53,
+    "connections": 3,
+    "memory": "48.46MiB / 7.748GiB"
+  }
+]

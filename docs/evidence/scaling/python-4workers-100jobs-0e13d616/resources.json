@@ -1,0 +1,20 @@
+[
+  {
+    "time": "2026-09-14T03:24:15.098428+00:00",
+    "cpu_percent": 2.43,
+    "connections": 8,
+    "memory": "68.88MiB / 7.748GiB"
+  },
+  {
+    "time": "2026-09-14T03:24:17.220227+00:00",
+    "cpu_percent": 12.29,
+    "connections": 8,
+    "memory": "69.33MiB / 7.748GiB"
+  },
+  {
+    "time": "2026-09-14T03:24:20.314697+00:00",
+    "cpu_percent": 1.22,
+    "connections": 8,
+    "memory": "69.73MiB / 7.748GiB"
+  }
+]

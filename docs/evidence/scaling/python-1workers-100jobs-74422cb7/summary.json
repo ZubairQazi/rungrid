@@ -1,0 +1,26 @@
+{
+  "run_id": "74422cb7-ddf1-40bc-ae2c-69ee17d31823",
+  "jobs": 100,
+  "workers": 1,
+  "workload": "python",
+  "submission_seconds": 0.053747500060126185,
+  "submission_jobs_per_second": 1860.5516514839226,
+  "execution_seconds_including_worker_startup": 11.929202832980081,
+  "end_to_end_jobs_per_second": 8.38278981421415,
+  "scheduling_span_seconds": 10.327760934829712,
+  "scheduling_jobs_per_second": 9.585814449493002,
+  "scheduling_latency_seconds": {
+    "p50": 6.6184255,
+    "p95": 11.32986635,
+    "p99": 11.74828099
+  },
+  "succeeded": 100,
+  "attempts": 100,
+  "revision": "7f43c0121a19b2381ec8314e38c602362fcfdf3b",
+  "dirty": false,
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "python": "3.12.14",
+  "docker": "29.7.2",
+  "compose_config": "name: rungrid\nservices:\n  minio:\n    command:\n      - server\n      - /data\n      - --console-address\n      - :9001\n    environment:\n      MINIO_ROOT_PASSWORD: rungrid-secret\n      MINIO_ROOT_USER: rungrid\n    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        host_ip: 127.0.0.1\n        target: 9000\n        published: \"9000\"\n        protocol: tcp\n      - mode: ingress\n        host_ip: 127.0.0.1\n        target: 9001\n        published: \"9001\"\n        protocol: tcp\n    volumes:\n      - type: volume\n        source: artifacts\n        target: /data\n        volume: {}\n  minio-init:\n    command:\n      - until mc alias set local http://minio:9000 rungrid rungrid-secret; do sleep\n        1; done; mc mb --ignore-existing local/rungrid\n    depends_on:\n      minio:\n        condition: service_started\n        required: true\n    entrypoint:\n      - /bin/sh\n      - -c\n    image: quay.io/minio/mc:RELEASE.2025-04-16T18-13-26Z\n    networks:\n      default: null\n  otel:\n    command:\n      - --config=/etc/otel/config.yml\n    image: otel/opentelemetry-collector:0.127.0\n    networks:\n      default: null\n    volumes:\n      - type: bind\n        source: /Users/zubairqazi/Documents/rungrid/deploy/otel.yml\n        target: /etc/otel/config.yml\n        read_only: true\n        bind: {}\n  postgres:\n    environment:\n      POSTGRES_DB: rungrid\n      POSTGRES_PASSWORD: rungrid\n      POSTGRES_USER: rungrid\n    healthcheck:\n      test:\n        - CMD-SHELL\n        - pg_isready -U rungrid\n      timeout: 2s\n      interval: 2s\n      retries: 30\n    image: postgres:17.5-bookworm\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        host_ip: 127.0.0.1\n        target: 5432\n        published: \"55432\"\n        protocol: tcp\n    volumes:\n      - type: volume\n        source: postgres\n        target: /var/lib/postgresql/data\n        volume: {}\n  prometheus:\n    depends_on:\n      server:\n        condition: service_started\n        required: true\n    image: prom/prometheus:v3.4.0\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        host_ip: 127.0.0.1\n        target: 9090\n        published: \"9091\"\n        protocol: tcp\n    volumes:\n      - type: bind\n        source: /Users/zubairqazi/Documents/rungrid/deploy/prometheus.yml\n        target: /etc/prometheus/prometheus.yml\n        read_only: true\n        bind: {}\n  server:\n    build:\n      context: /Users/zubairqazi/Documents/rungrid\n      dockerfile: deploy/Dockerfile.server\n    depends_on:\n      postgres:\n        condition: service_healthy\n        required: true\n    environment:\n      DATABASE_URL: postgres://rungrid:rungrid@postgres:5432/rungrid?sslmode=disable\n      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel:4318\n      RUNGRID_GRPC_ADDR: 0.0.0.0:9090\n      RUNGRID_HTTP_ADDR: 0.0.0.0:8080\n      RUNGRID_LEASE_SECONDS: \"15\"\n    networks:\n      default: null\n    ports:\n      - mode: ingress\n        host_ip: 127.0.0.1\n        target: 8080\n        published: \"8080\"\n        protocol: tcp\n      - mode: ingress\n        host_ip: 127.0.0.1\n        target: 9090\n        published: \"9090\"\n        protocol: tcp\n    restart: unless-stopped\n  worker:\n    build:\n      context: /Users/zubairqazi/Documents/rungrid\n      dockerfile: deploy/Dockerfile.worker\n    depends_on:\n      minio-init:\n        condition: service_completed_successfully\n        required: true\n      server:\n        condition: service_started\n        required: true\n    environment:\n      AWS_ACCESS_KEY_ID: rungrid\n      AWS_DEFAULT_REGION: us-east-1\n      AWS_SECRET_ACCESS_KEY: rungrid-secret\n      RUNGRID_CPU: \"2\"\n      RUNGRID_GRPC_ADDR: server:9090\n      RUNGRID_MEMORY_MB: \"4096\"\n      RUNGRID_S3_BUCKET: rungrid\n      RUNGRID_S3_ENDPOINT: http://minio:9000\n    networks:\n      default: null\n    stop_grace_period: 1m0s\nnetworks:\n  default:\n    name: rungrid_default\nvolumes:\n  artifacts:\n    name: rungrid_artifacts\n  postgres:\n    name: rungrid_postgres",
+  "timestamp": "2026-09-14T03:24:03.451333+00:00"
+}
