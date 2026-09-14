@@ -3,5 +3,10 @@
 .venv
 results
 dist
+bin
+coverage*
+.coverage
+.pytest_cache
+*.egg-info
 **/__pycache__
 **/*.log
