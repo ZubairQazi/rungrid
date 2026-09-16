@@ -60,6 +60,25 @@ receipts survive control-plane restarts.
 [Design](docs/design.md) · [API/configuration](docs/api.md) ·
 [Benchmarks](benchmarks/README.md) · [Failure tests](tests/faults/README.md)
 
+## Slurm / HPC integration (experimental)
+
+RunGrid can be used as an experiment queue **inside Slurm allocations**, not as a
+replacement for Slurm. Slurm owns GPU/CPU allocation and wall-time enforcement;
+RunGrid tracks individual experiments, attempts, and retries within those allocations.
+This is intended for large independent configuration/fold/seed sweeps.
+
+An example single-GPU worker allocation is provided in
+[`deploy/slurm/worker.sbatch`](deploy/slurm/worker.sbatch). It uses an existing
+Python environment, preserves Slurm's GPU visibility, and does not require Docker
+on compute nodes. See the [Slurm setup guide](docs/slurm.md) for prerequisites,
+submission instructions, research-workflow mapping, and a cluster validation checklist.
+
+**Status:** deployment template, not a cluster-tested backend. There is no automatic
+`sbatch` submission, allocation renewal, or Slurm accounting reconciliation. Existing
+Lightning `.ckpt` files need an adapter before they can resume through RunGrid;
+the current worker discovers JSON checkpoints. The local Compose benchmarks do not
+establish Slurm performance or recovery guarantees.
+
 ## Develop and test
 
 Recorded toolchain: Go 1.27.1 and Python 3.12. Generated bindings are committed.
