@@ -7,12 +7,13 @@ Copyright 2026 Zubair Qazi. RunGrid's MIT license preserves those terms.
 `task.py` adapts that implementation with independent jobs and checkpointed model,
 optimizer, RNG state, configuration identity, and split-manifest validation.
 
-The existing study has **eight dataset/regime combinations**, four per dataset.
-Two models and five seeds therefore yield **80 jobs**, not 160. The original spec's
-eight regimes *per dataset* cannot be applied unchanged: unordered DrugComb pairs
-reject source/destination regimes, and the MovieLens schema has no context role.
-This demo preserves the research semantics. Adding new schema/regime combinations
-requires a separate research decision; no dummy duplicate regimes are counted.
+The reference study has **eight dataset/regime combinations**, four per dataset,
+and remains selectable as `original-v1` (80 jobs). With user-authorized schema and
+protocol expansion, `expanded-v2` supplies eight meaningful contracts per dataset
+(160 jobs). These are RunGrid research extensions, not claims about the original
+HeteroSplit publication. Unordered DrugComb pairs remain unordered; MovieLens
+context is derived from observed UTC rating months. See [REGIMES.md](REGIMES.md).
+Historical v0.1 results remain unchanged and describe only the original study.
 
 DrugComb and MovieLens data are not redistributed. Mount your legally obtained data
 directory read-only. The default reads up to 120,000 raw rows and uses three epochs for a scheduler

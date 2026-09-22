@@ -114,11 +114,13 @@ by fault tests but are not instrumented by the Python unit-coverage command.
 
 ## HeteroSplit demonstration
 
-The real-data adapter preserves the original MF/GraphSAGE study's **eight dataset/
-regime combinations × two models × five seeds = 80 jobs**. The proposed 160-job grid
-requires additional scientifically valid definitions: source/destination regimes
-are undefined for unordered DrugComb pairs and MovieLens has no context role.
-See [provenance and scope](examples/heterosplit/NOTICE.md).
+The default `expanded-v2` grid contains **two datasets × eight regimes × two models
+× five seeds = 160 jobs**. DrugComb adds cell-line and joint pair/drug–cell holdouts;
+MovieLens adds UTC rating-month and joint user/movie–month holdouts. These are
+distinct, versioned split contracts, not renamed duplicates or chronological forecasting.
+Use `--study original-v1` with preflight and submission to reproduce the original
+80-job grid. See [regime definitions and limitations](examples/heterosplit/REGIMES.md)
+and [provenance](examples/heterosplit/NOTICE.md).
 
 Supply `summary_v_1_5.csv` and `ml/ml-latest-small/ratings.csv` in your data directory.
 Data is mounted read-only and is not redistributed.
@@ -137,6 +139,9 @@ docker compose -f deploy/docker-compose.yml up -d --scale worker=2 worker
 Defaults read up to 120,000 raw rows and use three epochs to demonstrate scheduling, not reproduce
 published accuracy. Checkpoints include model, optimizer, RNG, and split identity.
 Aggregation accepts only successful-attempt metrics with verified SHA-256 digests.
+The archived v0.1 evidence remains the original 80-job study; it is not evidence
+that all 160 expanded experiments have completed. Preflight validates 80 distinct
+dataset/regime/seed splits shared by the two models. Both models remain context-blind.
 
 ## Release and evidence
 
