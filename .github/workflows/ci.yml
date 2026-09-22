@@ -5,6 +5,19 @@ on:
 permissions:
   contents: read
 jobs:
+  research-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          pip install --require-hashes -r requirements-dev.lock
+          pip install --no-deps -e .
+          pip install 'https://github.com/ZubairQazi/heterosplit/archive/9636559fc724d8b162afcfcadfa2ea1c385ed292.tar.gz'
+      - run: python -m pytest tests/test_heterosplit_protocols.py -q
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 25

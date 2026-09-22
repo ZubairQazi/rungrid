@@ -44,9 +44,10 @@ for job in states:
     rows.append(json.loads(data))
 groups = defaultdict(list)
 for row in rows:
-    groups[(row["dataset"], row["regime"], row["model"])].append(row["auc"])
+    groups[(row.get("study", "original-v1"), row["dataset"], row["regime"], row["model"])].append(row["auc"])
 lines = ["# HeteroSplit distributed experiment results", "", "A scheduler demonstration; reduced data/epochs are not a replication of the published study.", "",
-         "| Dataset | Regime | Model | Seeds | AUC mean | AUC std |", "|---|---|---|---:|---:|---:|"]
+         "Context holdouts use context-blind link predictors; month holdouts are not chronological forecasting.", "",
+         "| Study | Dataset | Regime | Model | Seeds | AUC mean | AUC std |", "|---|---|---|---|---:|---:|---:|"]
 for key, values in sorted(groups.items()):
     lines.append("| " + " | ".join(key) + f" | {len(values)} | {statistics.mean(values):.4f} | {statistics.stdev(values) if len(values)>1 else 0:.4f} |")
 (args.output / "metrics.json").write_text(json.dumps(rows, indent=2))
